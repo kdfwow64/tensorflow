@@ -1,23 +1,23 @@
 export const traingulationMatrices = [
   //Left Top
-  109,
-  108,
-  151,
+  // 109,
+  // 108,
+  // 151,
 
   // Bottom Second and Right Bottom
   9,
   336,
   337,
 
-  // Right First
+  // Right Top
   297,
   338,
   337,
 
   // Top second
-  338,
-  10,
-  151,
+  // 338,
+  // 10,
+  // 151,
 
   // Bottom First
   107,
@@ -42,16 +42,10 @@ const drawPath = (ctx, points, closePath) => {
   if (closePath) {
     region.closePath();
   }
-  ctx.strokeStyle = "grey";
+  ctx.strokeStyle = "blue";
+  ctx.strokeWidth = 3;
   ctx.stroke(region);
 };
-
-const rect = [
-  [200, 100],
-  [500, 100],
-  [500, 300],
-  [200, 300]
-];
 
 // Drawing Mesh
 export const drawMesh = (predictions, ctx) => {
@@ -60,6 +54,7 @@ export const drawMesh = (predictions, ctx) => {
       const keypoints = prediction.scaledMesh;
 
       //  Draw Triangles
+      const all_p = [];
       for (let i = 0; i < traingulationMatrices.length / 3; i++) {
         // Get sets of three keypoints for the triangle
         const points = [
@@ -68,9 +63,23 @@ export const drawMesh = (predictions, ctx) => {
           traingulationMatrices[i * 3 + 2]
         ].map((index) => keypoints[index]);
         //  Draw triangle
-        console.log(points);
-        drawPath(ctx, points, true);
+        const pp = [
+          [points[0][0], points[0][1]],
+          [points[1][0], points[1][1]],
+          [points[2][0], points[2][1]]
+        ];
+        all_p.push(pp);
+        // console.log(points);
+        // drawPath(ctx, pp, true);
       }
+      console.log(all_p);
+      const final = [
+        all_p[0][1],
+        all_p[2][0],
+        all_p[3][1],
+        all_p[1][1],
+      ];
+      drawPath(ctx, final, true);
       // drawPath(ctx, rect, true);
 
       // Draw Dots

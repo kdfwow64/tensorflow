@@ -1,3 +1,5 @@
+import * as tf from "@tensorflow/tfjs";
+
 export const traingulationMatrices = [
   //Left Top
   // 109,
@@ -72,7 +74,7 @@ export const drawMesh = (predictions, ctx) => {
         // console.log(points);
         // drawPath(ctx, pp, true);
       }
-      console.log(all_p);
+      // console.log(all_p);
       const final = [
         all_p[0][1],
         all_p[2][0],
@@ -80,6 +82,13 @@ export const drawMesh = (predictions, ctx) => {
         all_p[1][1],
       ];
       drawPath(ctx, final, true);
+      const boxes = tf.concat([final[2], final[0]]).reshape([-1, 4]);
+      // crop = tf.image.cropAndResize(images, boxes, [0], [final[2][1] - final[2][1], final[0][0] - final[2][0]])
+      // return {
+      //   width: final[0][0] - final[2][0],
+      //   height: final[2][1] - final[2][1],
+      //   boxes
+      // };
       // drawPath(ctx, rect, true);
 
       // Draw Dots
